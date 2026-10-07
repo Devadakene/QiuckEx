@@ -6,6 +6,7 @@ import { CrashReportingAdminController } from './crash-reporting-admin.controlle
 import { CrashReportingRepository } from './crash-reporting.repository';
 import { RedactionService } from './redaction.service';
 import { SupabaseModule } from '../supabase/supabase.module';
+import { ApiKeysModule } from '../api-keys/api-keys.module';
 import { LogCaptureInterceptor } from './log-capture.interceptor';
 import { LogCaptureMiddleware } from './log-capture.middleware';
 
@@ -18,7 +19,7 @@ import { LogCaptureMiddleware } from './log-capture.middleware';
  * lines.
  */
 @Module({
-  imports: [SupabaseModule],
+  imports: [SupabaseModule, ApiKeysModule],
   controllers: [CrashReportingController, CrashReportingAdminController],
   providers: [
     CrashReportingService,
