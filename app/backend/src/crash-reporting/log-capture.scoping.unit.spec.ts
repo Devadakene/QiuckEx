@@ -15,6 +15,7 @@ import { NextFunction, Request, Response } from 'express';
 import * as request from 'supertest';
 
 import { SupabaseService } from '../supabase/supabase.service';
+import { ApiKeysService } from '../api-keys/api-keys.service';
 import { CrashCaptureFilter } from './crash-capture.filter';
 import { CrashReportingModule } from './crash-reporting.module';
 import { CrashReportingRepository } from './crash-reporting.repository';
@@ -121,6 +122,8 @@ describe('Crash reporting log capture scoping (#1063)', () => {
       .useValue({})
       .overrideProvider(CrashReportingRepository)
       .useValue(repository)
+      .overrideProvider(ApiKeysService)
+      .useValue({})
       .compile();
 
     app = moduleRef.createNestApplication({ logger: false });
