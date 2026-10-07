@@ -17,6 +17,7 @@ import * as request from 'supertest';
 import { SupabaseService } from '../supabase/supabase.service';
 import { ApiKeysService } from '../api-keys/api-keys.service';
 import { AuditService } from '../audit/audit.service';
+import { ApiKeyGuard } from '../auth/guards/api-key.guard';
 import { CrashCaptureFilter } from './crash-capture.filter';
 import { CrashReportingModule } from './crash-reporting.module';
 import { CrashReportingRepository } from './crash-reporting.repository';
@@ -131,6 +132,8 @@ describe('Crash reporting log capture scoping (#1063)', () => {
       })
       .overrideProvider(AuditService)
       .useValue({})
+      .overrideGuard(ApiKeyGuard)
+      .useValue({ canActivate: () => true })
       .compile();
 
     app = moduleRef.createNestApplication({ logger: false });
