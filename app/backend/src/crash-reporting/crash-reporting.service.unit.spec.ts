@@ -340,11 +340,11 @@ describe('CrashReportingService', () => {
         },
       ];
       // Mock the new method in repository (if necessary we can cast to any for this test or add it to mock)
-      (repository as any).getAllCrashReports = jest.fn().mockResolvedValue(reports);
+      (repository as jest.Mocked<CrashReportingRepository> & { getAllCrashReports: jest.Mock }).getAllCrashReports = jest.fn().mockResolvedValue(reports);
 
       const result = await service.getAllReports(10);
       expect(result).toEqual(reports);
-      expect((repository as any).getAllCrashReports).toHaveBeenCalledWith(10);
+      expect((repository as jest.Mocked<CrashReportingRepository> & { getAllCrashReports: jest.Mock }).getAllCrashReports).toHaveBeenCalledWith(10);
     });
   });
 

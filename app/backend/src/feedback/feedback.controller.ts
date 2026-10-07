@@ -1,4 +1,5 @@
 import { Controller, Post, Get, Body, UseGuards, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { FeedbackService } from './feedback.service';
 import { FeedbackDto } from './feedback.dto';
 import { CustomThrottlerGuard } from '../auth/guards/custom-throttler.guard';
@@ -16,7 +17,7 @@ export class FeedbackController {
 
   @Post()
   @UseGuards(CustomThrottlerGuard) // anti‑abuse rate limiting
-  async submit(@Body() feedback: FeedbackDto, @Req() req: any) {
+  async submit(@Body() feedback: FeedbackDto, @Req() req: Request) {
     // The service will handle redaction of sensitive fields.
     const stored = await this.feedbackService.createFeedback(feedback, req.ip);
     return { message: 'Feedback submitted', id: stored.id };
